@@ -1,5 +1,5 @@
 # StatisticalRethinkingStudyGroup
-Contains links and material to assist participants of the ANZORN [Statitical Rethinking](https://xcelab.net/rm/statistical-rethinking/) Study Group.
+Contains links and material to assist participants of the ANZORN [Statistical Rethinking](https://xcelab.net/rm/statistical-rethinking/) Study Group.
 
 ## Statistical Rethinking  
 [Statitical Rethinking](https://xcelab.net/rm/statistical-rethinking/) is a Bayesian statistics course/book presented by [Richard McElreath](https://xcelab.net/rm/).
