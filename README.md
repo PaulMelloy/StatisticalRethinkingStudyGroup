@@ -6,11 +6,11 @@ Contains links and material to assist participants of the ANZORN [Statitical Ret
 
 ## Study Group Genesis
 The idea for this group grew from the discussions between [myself](https://github.com/PaulMelloy) and [Adam Sparks](https://github.com/adamhsparks). 
-In an effort to commit to completing the study material, and not get distracted by work, we proposed commiting to a study group to work through each chapter/ module once a week and meet to discuss the material. 
+In an effort to commit to completing the study material, and not get distracted by work, we proposed committing to a study group to work through each chapter/ module once a week and meet to discuss the material. 
 We decided to open the group to our peers at [ANZORN](https://www.anzopenresearch.org/) whom meet regularly and show interest in participating in the study group.  
 
 ## Group meetings  
-The study group is likely to meet (pending group concensus) on 'Gather.Town' concurrently / after, the weekly ANZORN meetup.
+The study group is likely to meet (pending group consensus) on 'Gather.Town' concurrently / after, the weekly ANZORN meet-up.
 Starting with Chapter 1 'The Golem of Prague' in the first week of August 2020. 
 Late comers are still welcome to join in and catch up to the group. 
 
@@ -21,7 +21,7 @@ You can [join the ANZORN slack group](https://join.slack.com/t/anzorn/shared_inv
   - Informal poll for who completion the chapter of study material, and who had week more thrilling than the SR material.  
   - Open for general discussion about the chapter.  
   - Discussion on challenge questions and the answers, at the end of each chapter.  
-  - How participants might apply the aspects in each chapter to thier own work.  
+  - How participants might apply the aspects in each chapter to their own work.  
   - Set out the goals for next weeks material.  
   - Conclusion and adjournment of the study group till the next meeting.  
  
