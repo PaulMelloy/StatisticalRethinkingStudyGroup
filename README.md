@@ -13,6 +13,8 @@ We decided to open the group to our peers at [ANZORN](https://www.anzopenresearc
 The study group is likely to meet (pending group consensus) on 'Gather.Town' concurrently / after, the weekly ANZORN meet-up.
 Starting with Chapter 1 'The Golem of Prague' in the first week of August 2020. 
 Late comers are still welcome to join in and catch up to the group. 
+The pace at which we will work through the material will not be onerous and likely take 17 weeks (one week per chapter), concluding on the last week of November. 
+This will allow participants to catch up if they fall behind in some weeks.  
 
 ## How to join  
 You can [join the ANZORN slack group](https://join.slack.com/t/anzorn/shared_invite/zt-68encgjn-uftY95BIMQQ4jXfxoLo0oA), where links to the weekly online meetings are posted.  
@@ -34,3 +36,4 @@ You can [join the ANZORN slack group](https://join.slack.com/t/anzorn/shared_inv
 ### Obtaining a copy of the book  
 You can buy it at the link above.  
 Or try and access it through your research organisation library.  
+[Github version](https://github.com/Booleans/statistical-rethinking/blob/master/Statistical%20Rethinking%202nd%20Edition.pdf)
