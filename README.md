@@ -5,7 +5,7 @@ Contains links and material to assist participants of the ANZORN [Statitical Ret
 [Statitical Rethinking](https://xcelab.net/rm/statistical-rethinking/) is a Bayesian statistics course/book presented by [Richard McElreath](https://xcelab.net/rm/).
 
 ## Study Group Genesis
-The idea for this group grew from the discussions between [myself](https://github.com/PaulMelloy) and Adam Sparks(https://github.com/adamhsparks). 
+The idea for this group grew from the discussions between [myself](https://github.com/PaulMelloy) and [Adam Sparks](https://github.com/adamhsparks). 
 In an effort to commit to completing the study material, and not get distracted by work, we proposed commiting to a study group to work through each chapter/ module once a week and meet to discuss the material. 
 We decided to open the group to our peers at [ANZORN](https://www.anzopenresearch.org/) whom meet regularly and show interest in participating in the study group.  
 
