@@ -29,11 +29,21 @@ You can [join the ANZORN slack group](https://join.slack.com/t/anzorn/shared_inv
  
 ## Links to the Statistical Rethinking material
 [Statisical Rethinking webpage and book and other links](https://xcelab.net/rm/statistical-rethinking/)  
-[2018/2019 Winter course materials of Statisical Rethinking on GitHub](https://github.com/rmcelreath/statrethinking_winter2019)  
+['rethinking' R package GitHub repository](https://github.com/rmcelreath/rethinking)
 [Blog article by Richard McElreath on the changes between Ed. I and Ed. II of the SL book](https://elevanth.org/blog/2018/07/14/statistical-rethinking-edition-2-eta-2020/)  
-[Week 1 lecture recording - The golem of Prague](https://www.youtube.com/watch?v=4WVelCswXo4)  
 
 ### Obtaining a copy of the book  
 You can buy it at the link above.  
 Or try and access it through your research organisation library.  
-[Github version](https://github.com/Booleans/statistical-rethinking/blob/master/Statistical%20Rethinking%202nd%20Edition.pdf)
+[Github version$^2$](https://github.com/Booleans/statistical-rethinking/blob/master/Statistical%20Rethinking%202nd%20Edition.pdf)  
+
+### Links to the 2018/19 Winter school course  
+[2018/2019 Winter course materials of Statisical Rethinking on GitHub](https://github.com/rmcelreath/statrethinking_winter2019)  
+
+#### Week one  
+[Week 1 lecture recording - The golem of Prague](https://www.youtube.com/watch?v=4WVelCswXo4)  
+
+#### Week Two  
+[Week 2 lecture recording - Garden of forking data](https://www.youtube.com/watch?v=XoVtOAN0htU&list=PLDcUM9US4XdNM4Edgs7weiyIguLSToZRI&index=2)  
+
+
