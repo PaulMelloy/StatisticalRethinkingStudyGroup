@@ -35,7 +35,7 @@ You can [join the ANZORN slack group](https://join.slack.com/t/anzorn/shared_inv
 ### Obtaining a copy of the book  
 You can buy it at the link above.  
 Or try and access it through your research organisation library.  
-[Github version$^2$](https://github.com/Booleans/statistical-rethinking/blob/master/Statistical%20Rethinking%202nd%20Edition.pdf)  
+[Github version<sup>2<\sup>](https://github.com/Booleans/statistical-rethinking/blob/master/Statistical%20Rethinking%202nd%20Edition.pdf)  
 
 ### Links to the 2018/19 Winter school course  
 [2018/2019 Winter course materials of Statisical Rethinking on GitHub](https://github.com/rmcelreath/statrethinking_winter2019)  
