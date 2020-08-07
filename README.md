@@ -29,7 +29,7 @@ You can [join the ANZORN slack group](https://join.slack.com/t/anzorn/shared_inv
  
 ## Links to the Statistical Rethinking material
 [Statisical Rethinking webpage and book and other links](https://xcelab.net/rm/statistical-rethinking/)  
-['rethinking' R package GitHub repository](https://github.com/rmcelreath/rethinking)
+['rethinking' R package GitHub repository](https://github.com/rmcelreath/rethinking)  
 [Blog article by Richard McElreath on the changes between Ed. I and Ed. II of the SL book](https://elevanth.org/blog/2018/07/14/statistical-rethinking-edition-2-eta-2020/)  
 
 ### Obtaining a copy of the book  
