@@ -1,0 +1,33 @@
+---
+title: "Week2 - garden of forking data"
+author: "P. Melloy"
+date: "10/08/2020"
+output: html_document
+---
+
+```{r install&load_Libraries}
+
+```
+
+Baysian inference is the $probability of the data * prior productivity/{normalisation to a probability}$
+
+
+```{r grid_aprox}
+p_grid <- seq(from = 0, to = 1, length.out = 1000)
+prob_p <- rep(1,1000)
+prob_data <- dbinom(6, size = 9, prob = p_grid)
+posterior <- prob_data * prob_p
+posterior <- posterior/sum(posterior)
+
+plot(p_grid)
+plot(prob_p) # plot the prior
+plot(prob_data)
+points(posterior, col = "blue")
+```
+
+```{r}
+p <- 10000
+samples <- sample(p, prob = posterior, size = 1e4, replace = TRUE)
+```
+Confidence intervals or any intervals have no meaning and there could be infinite number of intervals.  
+Sometimes 
