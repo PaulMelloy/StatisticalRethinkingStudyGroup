@@ -45,5 +45,5 @@ Or try and access it through your research organisation library.
 
 #### Week Two  
 [Week 2 lecture recording - Garden of forking data](https://www.youtube.com/watch?v=XoVtOAN0htU&list=PLDcUM9US4XdNM4Edgs7weiyIguLSToZRI&index=2)  
-
+[Installing Rstan, stan for R](https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started)
 
