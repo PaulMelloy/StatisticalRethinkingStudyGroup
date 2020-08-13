@@ -1,12 +1,12 @@
 ---
 title: "Week2 - garden of forking data"
 author: "P. Melloy"
-date: "10/08/2020"
+date: "13/08/2020"
 output: html_document
 ---
 
 ```{r install&load_Libraries}
-
+library(rethinking)
 ```
 
 Baysian inference is the $probability of the data * prior productivity/{normalisation to a probability}$
@@ -25,12 +25,7 @@ plot(prob_data)
 points(posterior, col = "blue")
 ```
 
-```{r}
-p <- 10000
-samples <- sample(p, prob = posterior, size = 1e4, replace = TRUE)
-```
-Confidence intervals or any intervals have no meaning and there could be infinite number of intervals.  
-Sometimes 
+> Confidence intervals or any intervals have no meaning and there could be infinite number of intervals.  
 
 ```{r chunk2.3}
 n1 <- 1000
@@ -62,14 +57,13 @@ If you have not installed stan for R the visit the following link and follow the
 [https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started](https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started)
 I am using a Windows 10 machine
 
-```{r install_rethinking}
+```{r install_rethinking, eval=FALSE, echo=TRUE}
 install.packages(c("coda","mvtnorm","devtools"))
 library(devtools)
 devtools::install_github("rmcelreath/rethinking")
 ```
 
 ```{r chunk_2.6}
-library(rethinking)
 globe.qa <- quap(
 alist(
 W ~ dbinom( W+L ,p) , # binomial likelihood
@@ -78,7 +72,7 @@ p ~ dunif(0,1) # uniform prior
 data=list(W=6,L=3) )
 # display summary of quadratic approximation
 precis( globe.qa )
-p
+
 ```
 
 ```{r chunk2.7}
