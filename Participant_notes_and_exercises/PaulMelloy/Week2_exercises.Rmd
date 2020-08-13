@@ -309,11 +309,11 @@ which—was tossed in the air and produced a “land” observation. Assume that
 likely to be tossed. Show that the posterior probability that the globe was the Earth, conditional on
 seeing “land” (Pr(Earth|land)), is 0.23.  
 
-$Pr(land|Earth) = 1 - 0.7 = 0.3$
-$Pr(land|Mars) = 1$
-$Pr(Earth) = 0.5$
-$Pr(Mars) = 0.5$
-$Pr(land) = Pr(land|Earth)*Pr(Earth) + Pr(land|Mars)*Pr(Mars)$
+$Pr(land|Earth) = 1 - 0.7 = 0.3$  
+$Pr(land|Mars) = 1$  
+$Pr(Earth) = 0.5$  
+$Pr(Mars) = 0.5$  
+$Pr(land) = Pr(land|Earth)*Pr(Earth) + Pr(land|Mars)*Pr(Mars)$  
 ```{r}
 paste("Pr(land) =",
       (0.3 * 0.5) + (1 * 0.5))
@@ -322,7 +322,7 @@ paste("Pr(land) =",
 <br> <!--HTML line break-->
 
 
-$Pr(Earth|land) = \frac{Pr(land|Earth)*Pr(Earth)}{Pr(land)}$
+$Pr(Earth|land) = \frac{Pr(land|Earth)*Pr(Earth)}{Pr(land)}$  
 ```{r}
 paste("Pr(Earth|land) =",
       (0.3 * 0.5)/0.65)
