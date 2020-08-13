@@ -422,18 +422,67 @@ birthing singleton infants. Assume these numbers are known with certainty, from 
 research.
 Now suppose you are managing a captive panda breeding program. You have a new female panda
 of unknown species, and she has just given birth to twins. What is the probability that her next birth
-will also be twins?
+will also be twins?  
+
+$Pr(PandaSpecies_A) = 0.5$
+$Pr(PandaSpecies_B) = 1 - Pr(PandaSpecies_A) = 0.5$
+$Pr(twins|PandaSpecies_A) = \frac{Pr(PandaSpecies_A|twins)Pr(twins)}{Pr(PandaSpeciesA)}$
+$Pr(twins|PandaSpecies_A) = 0.1$
+$Pr(twins|PandaSpecies_B) = 0.2$
+$Pr(twins) = Pr(twins|PandaSpecies_A)*Pr(PandaSpecies_A) + Pr(twins|PandaSpecies_B)*Pr(PandaSpecies_A)$
+```{r probabilityOfTwins}
+paste("Pr(twins) = appox",
+      (0.1 * 0.5)+(0.2 * 0.5))
+```
+
+The probability of two sets of twins is = $twins^2$
+```{r probabilityOfTwoTwins}
+paste("Pr(twins)^2 =",
+      ((0.1 * 0.5)+(0.2 * 0.5))^2)
+```
+
 
 <br> <!--HTML line break-->
 
 2H2. Recall all the facts from the problem above. Now compute the probability that the panda we
-have is from species A, assuming we have observed only the first birth and that it was twins.
+have is from species A, assuming we have observed only the first birth and that it was twins.  
+
+$Pr(PandaSpecies_A|twins)=\frac{Pr(twins|PandaSpecies_A)Pr(PandaSpecies_A)}{Pr(twins)}$
+```{r}
+paste("Pr(PandaSpecies_A|twins) =",
+      (0.1 * 0.5)/(0.15))
+```
+
 
 <br> <!--HTML line break-->
 
 2H3. Continuing on from the previous problem, suppose the same panda mother has a second birth
 and that it is not twins, but a singleton infant. Compute the posterior probability that this panda is
-species A.
+species A.  
+
+First lets find the $Pr(singleton)$  
+$Pr(singleton) = Pr(singleton|PandaSpecies_A)*Pr(PandaSpecies_A) + Pr(singleton|PandaSpecies_B)*Pr(PandaSpecies_A)$
+```{r probabilityOfsingle}
+paste("Pr(twins) = appox",
+      (0.9 * 0.5)+(0.8 * 0.5))
+```
+Which also equals 1 - $Pr(twins)$
+
+What is the probability of PanderSpecies-A given a singleton
+$Pr(PandaSpecies_A|singleton)=\frac{Pr(singleton|PandaSpecies_A)Pr(PandaSpecies_A)}{Pr(singleton)}$  
+```{r}
+paste("Pr(PandaSpecies_A|single) =",
+      (0.9 * 0.5)/(0.85))
+```
+
+I feel like I might be on the wrong track here
+Add up the probabilities and divide by the sum of all probabilities in each of the sum of all probabilities....
+```{r}
+(0.85+0.52944)/2
+
+```
+
+
 
 <br> <!--HTML line break-->
 
@@ -448,5 +497,20 @@ The vet administers the test to your panda and tells you that the test is positi
 ignore your previous information from the births and compute the posterior probability that your
 panda is species A. Then redo your calculation, now using the birth data as well.
 
+```{r}
+(0.5+0.8)/2
+0.2*0.2
+```
 
+PandaA  
+S,S = 0.9 * 0.9 = 0.81  
+S,T = 0.9 * 0.1 = 0.09
+T,S = 0.1 * 0.9 = 0.09  
+T,T = 0.1 * 0.1 * 0.01
+
+PandaB  
+S,S = 0.8 * 0.8 = 0.64  
+S,T = 0.8 * 0.2 = 0.16
+T,S = 0.2 * 0.8 = 0.16  
+T,T = 0.2 * 0.2 * 0.04
 
