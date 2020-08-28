@@ -114,7 +114,7 @@ If not use the old prior mean 0.5
 #### Easy questions
 2E1. Which of the expressions below correspond to the statement: the probability of rain on Monday?  
    (1) Pr(rain)  
-   (2) Pr(rain|Monday)  
+   (2) **Pr(rain|Monday)**  
 (3) Pr(Monday|rain)  
 (4) **Pr(rain, Monday)/ Pr(Monday)**  
 
@@ -133,7 +133,7 @@ given that it is raining?
 **(1) Pr(Monday|rain)**  
 (2) Pr(rain|Monday)  
 (3) Pr(rain|Monday) Pr(Monday)  
-(4) Pr(rain|Monday) Pr(Monday)/ Pr(rain)  
+**(4) Pr(rain|Monday) Pr(Monday)/ Pr(rain)**  
 (5) Pr(Monday|rain) Pr(rain)/ Pr(Monday)  
 
 <br> <!--HTML line break-->
@@ -352,7 +352,7 @@ W/B = 0
 B/B = 1  
 B/B = 1  
 
-*We can see that where the top card is black and the bottom side is black occurs 2 times out of the 6 equally likely options.*
+*We can see that where the top card is black and the bottom side is black occurs 2 times out of the 6(5) equally likely options.*
 *However given we see the top is black we have data to eliminate any options where white would be on top.*
 *Therefore 2/3*
 
@@ -410,7 +410,17 @@ looking at the other side, we draw another card from the bag and lay it face up 
 that is shown on the new card is white. Show that the probability that the first card, the one showing
 a black side, has black on its other side is now 0.75. Use the counting method, if you can. Hint: Treat
 this like the sequence of globe tosses, counting all the ways to see each observation, for each possible
-first card.
+first card.  
+
+Probability of  
+top/bottom  
+W/W = 0  
+W/W = 0  
+B/W = 1  
+W/B = 0  
+B/B = 1  
+B/B = 1  
+
 
 
 ### Hard  
@@ -429,7 +439,8 @@ $Pr(PandaSpecies_B) = 1 - Pr(PandaSpecies_A) = 0.5$
 $Pr(twins|PandaSpecies_A) = \frac{Pr(PandaSpecies_A|twins)Pr(twins)}{Pr(PandaSpeciesA)}$
 $Pr(twins|PandaSpecies_A) = 0.1$
 $Pr(twins|PandaSpecies_B) = 0.2$
-$Pr(twins) = Pr(twins|PandaSpecies_A)*Pr(PandaSpecies_A) + Pr(twins|PandaSpecies_B)*Pr(PandaSpecies_A)$
+Calculate the marginal probability of twins (probability of twins irrespective of any other outcome)
+$Pr(twins) = Pr(twins|PandaSpecies_A)*Pr(PandaSpecies_A) + Pr(twins|PandaSpecies_B)*Pr(PandaSpecies_B)$
 ```{r probabilityOfTwins}
 paste("Pr(twins) = appox",
       (0.1 * 0.5)+(0.2 * 0.5))
@@ -439,6 +450,19 @@ The probability of two sets of twins is = $twins^2$
 ```{r probabilityOfTwoTwins}
 paste("Pr(twins)^2 =",
       ((0.1 * 0.5)+(0.2 * 0.5))^2)
+
+paste("Pr(twins)^2 =",
+      (0.166667)^2)
+
+
+# Dans
+prior = c(0.5, 0.5)
+likelihood = c(0.1, 0.2)
+posterior_unst = likelihood * prior
+posterior = posterior_unst / sum(posterior_unst)
+# probability next birth is twins:
+posterior[1] * 0.1 + posterior[2] * 0.2
+
 ```
 
 
@@ -451,6 +475,19 @@ $Pr(PandaSpecies_A|twins)=\frac{Pr(twins|PandaSpecies_A)Pr(PandaSpecies_A)}{Pr(t
 ```{r}
 paste("Pr(PandaSpecies_A|twins) =",
       (0.1 * 0.5)/(0.15))
+
+paste("Pr(PandaSpecies_A|twins) =",
+      (0.1 * 0.5)/(0.166667))
+
+
+# 2H2 - Dans
+prior1 = c(0.5, 0.5) # A, B
+likelihood1 = c(0.1, 0.2) #A, B
+posterior_unst1 = likelihood1 * prior1
+posterior1 = posterior_unst / sum(posterior_unst)
+# probability she is species A
+posterior1[1]
+
 ```
 
 
@@ -461,24 +498,44 @@ and that it is not twins, but a singleton infant. Compute the posterior probabil
 species A.  
 
 First lets find the $Pr(singleton)$  
-$Pr(singleton) = Pr(singleton|PandaSpecies_A)*Pr(PandaSpecies_A) + Pr(singleton|PandaSpecies_B)*Pr(PandaSpecies_A)$
+$Pr(singleton) = Pr(singleton|PandaSpecies_A)*Pr(PandaSpecies_A) + Pr(singleton|PandaSpecies_B)*Pr(PandaSpecies_B)$
 ```{r probabilityOfsingle}
-paste("Pr(twins) = appox",
+# I have not updated my prior here Probability of pandaSpecies_A  = 0.33333
+# I have not updated my prior here Probability of pandaSpecies_B  = 0.66666
+paste("Pr(single) = appox",
       (0.9 * 0.5)+(0.8 * 0.5))
+
+paste("Pr(single) = appox",
+      (0.9 * 0.3333)+(0.8 * 0.66666))
 ```
 Which also equals 1 - $Pr(twins)$
 
 What is the probability of PanderSpecies-A given a singleton
 $Pr(PandaSpecies_A|singleton)=\frac{Pr(singleton|PandaSpecies_A)Pr(PandaSpecies_A)}{Pr(singleton)}$  
 ```{r}
+# I have not updated my prior here Probability of pandaSpecies_A  = 0.33333
 paste("Pr(PandaSpecies_A|single) =",
       (0.9 * 0.5)/(0.85))
+
+paste("Pr(PandaSpecies_A|single) =",
+      (0.9 * 0.33333)/(0.85))
 ```
 
 I feel like I might be on the wrong track here
 Add up the probabilities and divide by the sum of all probabilities in each of the sum of all probabilities....
 ```{r}
 (0.85+0.52944)/2
+
+```
+```{r}
+# 2H3 Dans
+prior2 = posterior1
+likelihood2 = 1 - likelihood1
+posterior_unst2 = prior2 * likelihood2
+posterior2 = posterior_unst2 / sum(posterior_unst2)
+posterior2
+# Prob of singleton given species A and twins
+posterior2[1]
 
 ```
 
@@ -497,10 +554,27 @@ The vet administers the test to your panda and tells you that the test is positi
 ignore your previous information from the births and compute the posterior probability that your
 panda is species A. Then redo your calculation, now using the birth data as well.
 
+*First we need to determine the* 
+$Pr(PandaSpecies_A|positiveTest) = \frac{Pr(positiveTest|PandaSpecies_A)*Pr(PandaSpecies_A)}{Pr(positiveTest)}$
+$Pr(positiveTest) = Pr(positiveTest|PandaSpecies_A)*Pr(PandaSpecies_A) + Pr(positiveTest|PandaSpecies_A)*Pr(PandaSpecies_A)$
 ```{r}
-(0.5+0.8)/2
-0.2*0.2
+paste("Pr(positiveTest) =",
+      (0.8 * 0.5)+(0.35*0.5))
+
+
+paste("Pr(PandaSpecies_A|positiveTest) =",
+      (0.8 * 0.5)/(0.575))
+
+
 ```
+First lets find the $Pr(singleton)$  
+$Pr(singleton) = Pr(singleton|PandaSpecies_A)*Pr(PandaSpecies_A) + Pr(singleton|PandaSpecies_B)*Pr(PandaSpecies_A)$
+```{r probabilityOfsingle}
+paste("Pr(singleton) = appox",
+      (0.9 * 0.5)+(0.8 * 0.5))
+```
+
+
 
 PandaA  
 S,S = 0.9 * 0.9 = 0.81  
