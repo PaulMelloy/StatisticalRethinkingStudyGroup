@@ -6,6 +6,7 @@ output: html_document
 ---
 ```{r message=FALSE, warning=FALSE}
 library(rethinking)
+library(dplyr)
 ```
 
 ```{r}
@@ -31,90 +32,8 @@ samples <- sample( p_grid , prob=posterior , size=1e4 , replace=TRUE )
 plot(samples)
 ```
 
-```{r}
-dens(samples)
-```
-
-```{r}
-# add up posterior probability where p < 0.5 
-sum( posterior[ p_grid < 0.5 ] )
-
-sum( samples < 0.5 ) / 1e4
-```
-
-```{r}
-sum( samples > 0.5 & samples < 0.75 ) / 1e4
-```
-
-```{r 3.10}
-quantile(samples, 0.8)
-quantile(samples, c(0.1,0.9))
-```
-
-```{r 3.11}
-p_grid <- seq( from=0 , to=1 , length.out=1000 )
-prior <- rep(1,1000)
-likelihood <- dbinom( 3 , size=3 , prob=p_grid )
-posterior <- likelihood * prior
-posterior <- posterior / sum(posterior)
-samples <- sample( p_grid , size=1e4 , replace=TRUE , prob=posterior )
-```
-
-```{r 3.12}
-PI(samples, prob = 0.5)
-```
-
-```{r 3.13}
-HPDI( samples , prob=0.5 )
-```
-
-
-```{r}
-dummy_w <- rbinom( 1e5 , size=9 , prob=0.7 )
-simplehist( dummy_w , xlab="dummy water count" )
-```
-
-
-
-
-
-I recently had a discussion on facebook with a "friend" who claimed that excessive force by police was equally likely against people with black and white skin.
-Knowing his circle of friends and the area in which he lived and visited growing up was predominantly white I could assume that the proportion of individuals he encountered was less than the National census of [0.033](https://www.aihw.gov.au/reports/australias-welfare/profile-of-indigenous-australians), however lets assume it was 0.1 (10%) and solve for this.  
-
-So according to his prior assumptions on his opinion  
-$Pr(black|ExcessiveForce) = 0.5$  
-and therefore  
-$Pr(ExcessiveForce|white) = 0.5$  
-We will also assume:  
-$Pr(black) \approx 0.1$  
-I don't know the probability of excessive force but lets say its low at 1 in 100 cases.  
-$Pr(ExcessiveForce) = Pr(ExcessiveForce|black)*Pr(black) + Pr(ExcessiveForce|white) + Pr(white)$
-```{r}
-paste("Pr(ExcessiveForce) =",
-      (0.5*0.1) + (0.5 * (1- 0.1)))
-```
-
-
-So what is the probability someone who is black given the excessive use of force
-$Pr(black|ExcessiveForce) = \frac{Pr(ExcessiveForce|black)*Pr(black)}{Pr(ExcessiveForce)}$
-
-```{r}
-paste("Pr(ExcessiveForce|black) =",
-      (0.5 *0.1)/0.01)
-```
-So if excessive force is used there is a 10% chance the person is black
-
-So what is the probability they are white given the excessive force
-$Pr(white|ExcessiveForce) = \frac{Pr(ExcessiveForce|white)*Pr(white)}{Pr(ExcessiveForce)}$
-```{r}
-paste("Pr(white|ExcessiveForce) =",
-      (0.5 *0.9)/0.5)
-```
-
-
-
-## Exercises  
-
+# Exercises  
+## Easy
 **Easy.** These problems use the samples from the posterior distribution for the globe tossing example.
 This code will give you a specific set of samples, so that you can check your answers exactly
 
@@ -175,8 +94,8 @@ PI(samples1, prob = 0.66)
 
 
 
-### Medium.  
-#### 3M1.  
+## Medium.  
+### 3M1.  
 Suppose the globe tossing data had turned out to be 8 water in 15 tosses. Construct the posterior
 distribution, using grid approximation. Use the same flat prior as before.
 
@@ -191,7 +110,7 @@ samples2 <- sample( p_grid , prob=posterior , size=1e4 , replace=TRUE ) # sample
 ```
 
 
-#### 3M2.  
+### 3M2.  
 Draw 10,000 samples from the grid approximation from above. Then use the samples to calculate
 the 90% HPDI for p.  
 *-HPDI finds the most probable outcomes, and results in intervals which are shorter than any other intervals*
@@ -200,7 +119,7 @@ HPDI(samples2, 0.9)
 ```
 
 
-#### 3M3.  
+### 3M3.  
 Construct a posterior predictive check for this model and data. This means simulate the distribution
 of samples, averaging over the posterior uncertainty in p. What is the probability of observing
 8 water in 15 tosses?
@@ -212,14 +131,14 @@ w <- rbinom(n = 1e5,        # randomly sample 10k samples
 summary(w)                  # summarise the number of outcomes to trials there were
 simplehist(w)               # show the number of outcomes to trials in a histogram
 
-prob_8_15 <-                # What is the probability of 8 water (outcomes) from 15 tosses (trials)
+prob_8_15unif <-                # What is the probability of 8 water (outcomes) from 15 tosses (trials)
    sum(w == 8)/length(w)    # sum the number of of w which equal 8 and divide by the total number of w's
 
-paste(round(100*prob_8_15, 4),"%")    # show as a percentage
+paste(round(100*prob_8_15unif, 4),"%")    # show as a percentage
 ```
 
 
-#### 3M4. 
+### 3M4. 
 Using the posterior distribution constructed from the new (8/15) data, now calculate the probability
 of observing 6 water in 9 tosses.
 
@@ -231,13 +150,13 @@ w <- rbinom(n = 1e5,        # randomly sample 10k samples
 summary(w)                  # summarise the number of outcomes to trials there were
 simplehist(w)               # show the number of outcomes to trials in a histogram
 
-prob_6_9 <-                # What is the probability of 8 water (outcomes) from 15 tosses (trials)
+prob_6_9unif <-                # What is the probability of 8 water (outcomes) from 15 tosses (trials)
    sum(w == 6)/length(w)    # sum the number of of w which equal 8 and divide by the total number of w's
 
-paste(round(100*prob_6_9, 4),"%")    # show as a percentage
+paste(round(100*prob_6_9unif, 4),"%")    # show as a percentage
 ```
 
-#### 3M5.  
+### 3M5.  
 Start over at 3M1, but now use a prior that is zero below p = 0.5 and a constant above p = 0.5.
 This corresponds to prior information that a majority of the Earth’s surface is water. Repeat each
 problem above and compare the inferences. What difference does the better prior make? If it helps,
@@ -246,11 +165,11 @@ compare inferences (using both priors) to the true value p = 0.7.
 ```{r}
 p_grid <- seq( from=0 , to=1 , length.out=1000 ) # create a grid of all the possibilities
 prior <- as.numeric(p_grid > 0.5)  # a prior which states for the probabilities in p_grid, one above 0.5 are equally likely, while below ore impossible
-likelihood <- dbinom( 8 , size=15 , prob=p_grid ) # What is the likiehood of 8 outcomes from 15 samples given a probability of p_grid
-posterior <- likelihood * prior  # "add" the likihood to the prior to find the posterier
+likelihood <- dbinom( 8 , size=15 , prob=p_grid ) # What is the likelihood of 8 outcomes from 15 samples given a probability of p_grid
+posterior <- likelihood * prior  # "add" the likelihood to the prior to find the posterior
 posterior <- posterior / sum(posterior) # normalise the posterior
 set.seed(100)
-samples3 <- sample( p_grid , prob=posterior , size=1e4 , replace=TRUE ) # sample from all the possible probabilities 10k times with the probabilities in our posterier
+samples3 <- sample( p_grid , prob=posterior , size=1e4 , replace=TRUE ) # sample from all the possible probabilities 10k times with the probabilities in our posterior
 ```
 
 Draw 10,000 samples from the grid approximation from above. Then use the samples to calculate
@@ -288,17 +207,22 @@ w <- rbinom(n = 1e5,        # randomly sample 10k samples
 summary(w)                  # summarise the number of outcomes to trials there were
 simplehist(w)               # show the number of outcomes to trials in a histogram
 
-prob_6_9 <-                # What is the probability of 8 water (outcomes) from 15 tosses (trials)
+prob_6_9 <-                # What is the probability of 6 water (outcomes) from 9 tosses (trials)
    sum(w == 6)/length(w)    # sum the number of of w which equal 8 and divide by the total number of w's
 
 paste(round(100*prob_6_9, 4),"%")    # show as a percentage
 ```
 
-What is the likelihoods at 0.7 for samples1, samples2 and samples3
+**uniform prior**
 ```{r}
-quantile(samples2, 0.7)
-quantile(samples3, 0.7)
-# this is not complete
+paste(round(100*prob_8_15unif, 4),"%") 
+paste(round(100*prob_6_9unif, 4),"%") 
+```
+
+**prior eliminating the probabilities below 0.5**
+```{r}
+paste(round(100*prob_8_15, 4),"%") 
+paste(round(100*prob_6_9, 4),"%") 
 ```
 
 
@@ -308,15 +232,303 @@ want the 99% percentile interval of the posterior distribution of p to be only 0
 the distance between the upper and lower bound of the interval should be 0.05. How many times will
 you have to toss the globe to do this?
 
+*We could define better priors which would shorten this, however we will write a loop to show estimate the brute force method.*
+*here we will assume flat prior, and the true proportion of water is 0.7*
+```{r}
+for(i in 1:1000){
+if(i == 1){
+   p_grid <- seq( from=0 , to=1 , length.out=1000 ) # create a grid of all the possibilities
+   prior <- rep( 1 , 1000 )  # a prior which states all probabilities are equally likely
+   tosses <- 10 # each iteration will toss the globe ten times to define a posterior, then this will be added to the prior
+   total_tosses <- 0
+   hdpi <- vector(mode = "list", length = 1000)
+posteriors <- vector(mode = "list", length = 1000)
+hdpinterval <- vector()
+}
+# Given the uncertainty of throwing the globe and it landing on water we will sample for the likelihood calculations
+# we will start at 1000 tosses
+
+n_water <- rbinom(1,size = tosses,prob = 0.7)
+
+likelihood <- dbinom( n_water , size= tosses , prob=p_grid ) # What is the likiehood of 8 outcomes from 15 samples given a probability of p_grid
+posterior <- likelihood * prior  # "add" the likihood to the prior to find the posterier
+posterior <- posterior / sum(posterior) # normalise the posterior
+
+samplesIt <- sample(p_grid , prob=posterior , size=1e4 , replace=TRUE ) # sample from all the possible probabilities 10k times with the probabilities
+
+total_tosses <- tosses + total_tosses 
+hdpi[[i]] <- HPDI(samplesIt, prob = 0.99)
+hdpinterval <- c(hdpinterval, hdpi[[i]][2] - hdpi[[i]][1])
+posteriors[[i]] <- posterior
+prior <- posterior
+if(hdpinterval[i] < 0.05){break}
+}
+
+plot(hdpinterval, )
+for(j in seq(from =100, to = total_tosses, by =100)/10){
+
+   if(j == 10){plot(x = p_grid, y = posteriors[[j]], ylim = c(0,0.04))}
+   else{lines(x = p_grid, y = posteriors[[j]], col = abs(j/10))}
+}
+paste("This code, with a uniform prior, needed", total_tosses, "tosses of the globe until the HPDI was aprrox 0.05")
+
+```
+*width of priors and the parameter inside rbinom for variance could influence how many tosses we calculate*
+
+
+*here we will assume informed prior (water covers more than half the globe), and the true proportion of water is 0.7*
+```{r}
+for(i in 1:1000){
+if(i == 1){
+   p_grid <- seq( from=0 , to=1 , length.out=1000 ) # create a grid of all the possibilities
+   prior <- as.numeric(p_grid > 0.5)
+   tosses <- 10 # each iteration will toss the globe ten times to define a posterior, then this will be added to the prior
+   total_tosses <- 0
+   hdpi <- vector(mode = "list", length = 1000)
+posteriors <- vector(mode = "list", length = 1000)
+hdpinterval <- vector()
+}
+# Given the uncertainty of throwing the globe and it landing on water we will sample for the likelihood calculations
+# we will start at 1000 tosses
+
+n_water <- rbinom(1,size = tosses,prob = 0.7)
+
+likelihood <- dbinom( n_water , size= tosses , prob=p_grid ) # What is the likiehood of 8 outcomes from 15 samples given a probability of p_grid
+posterior <- likelihood * prior  # "add" the likihood to the prior to find the posterier
+posterior <- posterior / sum(posterior) # normalise the posterior
+
+samplesIt <- sample(p_grid , prob=posterior , size=1e4 , replace=TRUE ) # sample from all the possible probabilities 10k times with the probabilities
+
+total_tosses <- tosses + total_tosses 
+hdpi[[i]] <- HPDI(samplesIt, prob = 0.99)
+hdpinterval <- c(hdpinterval, hdpi[[i]][2] - hdpi[[i]][1])
+posteriors[[i]] <- posterior
+prior <- posterior
+if(hdpinterval[i] < 0.05){break}
+}
+
+plot(hdpinterval, )
+
+for(j in seq(from =100, to = total_tosses, by =100)/10){
+
+   if(j == 10){plot(x = p_grid, y = posteriors[[j]], ylim = c(0,0.04))}
+   else{lines(x = p_grid, y = posteriors[[j]], col = abs(j/10))}
+}
+paste("This code, with an informed prior needed", total_tosses, "tosses of the globe until the HPDI was aprrox 0.05")
+
+
+```
 
 
 
 
 
+## Hard.
+Introduction. The practice problems here all use the data below. These data indicate the gender
+(male=1, female=0) of officially reported first and second born children in 100 two-child families.
+```{r birthData}
+birth1 <- c(1,0,0,0,1,1,0,1,0,1,0,0,1,1,0,1,1,0,0,0,1,0,0,0,1,0,
+0,0,0,1,1,1,0,1,0,1,1,1,0,1,0,1,1,0,1,0,0,1,1,0,1,0,0,0,0,0,0,0,
+1,1,0,1,0,0,1,0,0,0,1,0,0,1,1,1,1,0,1,0,1,1,1,1,1,0,0,1,0,1,1,0,
+1,0,1,1,1,0,1,1,1,1)
+birth2 <- c(0,1,0,1,0,1,1,1,0,0,1,1,1,1,1,0,0,1,1,1,0,0,1,1,1,0,
+1,1,1,0,1,1,1,0,1,0,0,1,1,1,1,0,0,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,0,1,1,0,1,1,0,1,1,1,0,0,0,0,0,0,1,0,0,0,1,1,0,0,1,0,0,1,1,
+0,0,0,1,1,1,0,0,0,0)
+```
+
+So for example, the first family in the data reported a boy (1) and then a girl (0). The second family
+reported a girl (0) and then a boy (1). The third family reported two girls. You can load these two
+vectors into R’s memory by typing:
+```{r HardData}
+library(rethinking)
+data(homeworkch3)
+```
+
+Use these vectors as data. So for example to compute the total number of boys born across all of these
+births, you could use:
+
+```{r}
+sum(birth1) + sum(birth2)
+```
+
+**3H1.** 
+Using grid approximation, compute the posterior distribution for the probability of a birth
+being a boy. Assume a uniform prior probability. Which parameter value maximizes the posterior
+probability?
+
+```{r}
+p_grid <- seq( from=0 , to=1 , length.out=1000 ) # create a grid of all the possibilities
+prior <- rep(1, length(p_grid))  # a prior which states for the probabilities in p_grid, one above 0.5 are equally likely, while below ore impossible
+birth1_2 <- c(birth1, birth2)
+
+
+for(i in seq(from = 10, to = length(birth1_2), by = 10)){
+likelihood <- dbinom(sum(birth1_2[1:i]), 
+                     size=length(birth1_2[1:i]), 
+                     prob=p_grid ) # What is the likelihood of 8 outcomes from 15 samples given a probability of p_grid
+
+posterior <- likelihood * prior  # "add" the likelihood to the prior to find the posterior
+posterior <- posterior / sum(posterior) # normalise the posterior
+
+if(i == 10){plot(x = p_grid, y = posterior, ylim = c(0,0.014))}
+lines(x = p_grid, y = posterior, col = i/10)
+}
+
+```
+
+*As can be seen by the plot the more data maximises the probability. or* $n$
+
+3H2. Using the sample function, draw 10,000 random parameter values from the posterior distribution
+you calculated above. Use these samples to estimate the 50%, 89%, and 97% highest posterior
+density intervals.
+
+```{r}
+
+samples <- sample(p_grid , prob=posterior , size=1e5 , replace=TRUE ) # sample from all the possible probabilities 10k times with the probabilities
+
+HPDI(samples = samples, prob = 0.5)
+HPDI(samples = samples, prob = 0.89)
+HPDI(samples = samples, prob = 0.97)
+```
+
+
+3H3. Use rbinom to simulate 10,000 replicates of 200 births. You should end up with 10,000 numbers,
+each one a count of boys out of 200 births. Compare the distribution of predicted numbers
+of boys to the actual count in the data (111 boys out of 200 births). There are many good ways to
+visualize the simulations, but the dens command (part of the rethinking package) is probably the
+easiest way in this case. Does it look like the model fits the data well? That is, does the distribution
+of predictions include the actual observation as a central, likely outcome?
+
+```{r}
+simulat1e1 <- rbinom(1e5, size = 200, prob = samples)
+
+dens_3H3 <- dens(simulat1e1, xlim = c(0,200))
+abline(v= 111)
+```
+
+
+3H4. Now compare 10,000 counts of boys from 100 simulated first borns only to the number of boys in the first births, birth1. How does the model look in this light?
+
+```{r}
+likelihood <- 
+   dbinom(sum(birth1), 
+          size=length(birth1), 
+          prob=p_grid ) # What is the likelihood of 8 outcomes from 15 samples given a probability of p_grid
+
+posterior <- 
+   likelihood * prior  # "add" the likelihood to the prior to find the posterior
+
+posterior <- 
+   posterior / 
+   sum(posterior) # normalise the posterior
+
+samples_3H4 <- 
+   sample(p_grid, 
+          size = 1e5,
+          prob = posterior, 
+          replace = TRUE)
+
+sim_3H4 <- 
+   rbinom(1e5, 
+          size = 100, 
+          prob = samples_3H4)
+
+
+dens_3H3 <- dens(simulat1e1, xlim = c(0,200))
+dens_3H4 <- dens(sim_3H4, add = TRUE, col = "darkblue")
+abline(v = 111/2, 
+       col = "darkblue")
+```
+
+
+3H5. The model assumes that sex of first and second births are independent. To check this assumption,
+focus now on second births that followed female first borns. Compare 10,000 simulated counts
+of boys to only those second births that followed girls. To do this correctly, you need to count the
+number of first borns who were girls and simulate that many births, 10,000 times. Compare the
+counts of boys in your simulations to the actual observed count of boys following girls. How does the
+model look in this light? Any guesses what is going on in these data?
+
+*First we need to count all the girl-boy (0-1) and girl-girl (0-0); Then allocate a binomial to the options, all first born boys will be removed* 
+
+```{r}
+birth_dat <- 
+   data.frame(birth1,
+              birth2)
+
+birth_dat <- 
+   birth_dat %>%
+   mutate(GB = case_when(
+      birth1 == 0 &
+         birth2 == 1 ~ 1,
+      TRUE ~ 0
+      ))%>%
+   mutate(GG = case_when(
+      birth1 == 0 &
+         birth2 == 0 ~ 1,
+      TRUE ~ 0
+      ))
+head(birth_dat)
+```
+
+
+```{r}
+likelihood_3H5_GB <- 
+   dbinom(sum(birth_dat$GB), 
+          size=nrow(birth_dat), 
+          prob=p_grid ) # What is the likelihood of 8 outcomes from 15 samples given a probability of p_grid
+
+posterior_3H5_GB <- 
+   likelihood_3H5_GB * prior  # "add" the likelihood to the prior to find the posterior
+
+posterior_3H5_GB <- 
+   posterior_3H5_GB / 
+   sum(posterior_3H5_GB) # normalise the posterior
+
+samples_3H5_GB <- 
+   sample(p_grid, 
+          size = 1e5,
+          prob = posterior_3H5_GB, 
+          replace = TRUE)
+
+sim_3H5_GB <- 
+   rbinom(1e5, 
+          size = 100, 
+          prob = samples_3H5_GB)
+
+# now simulating for Girl girl
+likelihood_3H5_GG <- 
+   dbinom(sum(birth_dat$GG), 
+          size=nrow(birth_dat), 
+          prob=p_grid ) # What is the likelihood of 8 outcomes from 15 samples given a probability of p_grid
+
+posterior_3H5_GG <- 
+   likelihood_3H5_GG * prior  # "add" the likelihood to the prior to find the posterior
+
+posterior_3H5_GG <- 
+   posterior_3H5_GG / 
+   sum(posterior_3H5_GG) # normalise the posterior
+
+samples_3H5_GG <- 
+   sample(p_grid, 
+          size = 1e5,
+          prob = posterior_3H5_GG, 
+          replace = TRUE)
+
+sim_3H5_GG <- 
+   rbinom(1e5, 
+          size = 100, 
+          prob = samples_3H5_GG)
 
 
 
+dens_3H4 <- dens(sim_3H5_GB, xlim = c(0,100), ylim = c(0,0.07))
+dens_3H5 <- dens(sim_3H5_GG, add = TRUE,  col = "darkblue")
+abline(v = sum(birth_dat$GB))
+abline(v = sum(birth_dat$GG),  col = "darkblue")
 
+```
 
+These probability distributions are very different and infer that the sex of the second child might be conditional of the sex of the first. If we expect the sex at birth to be independent then we would expect both probability distributions to be centered around 25/100.
 
 
