@@ -374,9 +374,15 @@ posterior <- posterior / sum(posterior) # normalise the posterior
 if(i == 10){plot(x = p_grid, y = posterior, ylim = c(0,0.014))}
 lines(x = p_grid, y = posterior, col = i/10)
 }
-
+abline(v = p_grid[which(posterior == max(posterior))])
+text(x = 0, 
+     y = 0.013, 
+     paste("Parameter that maxes the posterior =",
+           round(p_grid[which(posterior == max(posterior))],3)),
+     cex = 0.8,
+     pos = 4)
 ```
-
+What we actually want here is the 
 *As can be seen by the plot the more data maximises the probability. or* $n$
 
 3H2. Using the sample function, draw 10,000 random parameter values from the posterior distribution
@@ -403,7 +409,7 @@ of predictions include the actual observation as a central, likely outcome?
 ```{r}
 simulat1e1 <- rbinom(1e5, size = 200, prob = samples)
 
-dens_3H3 <- dens(simulat1e1, xlim = c(0,200))
+dens_3H3 <- dens(simulat1e1, xlim = c(0,200), adj = 1)
 abline(v= 111)
 ```
 
@@ -435,9 +441,9 @@ sim_3H4 <-
           prob = samples_3H4)
 
 
-dens_3H3 <- dens(simulat1e1, xlim = c(0,200))
-dens_3H4 <- dens(sim_3H4, add = TRUE, col = "darkblue")
-abline(v = 111/2, 
+dens_3H3 <- dens(simulat1e1, xlim = c(0,200), adj = 1)
+dens_3H4 <- dens(sim_3H4, add = TRUE, col = "darkblue", adj = 1)
+abline(v = sum(birth1), 
        col = "darkblue")
 ```
 
@@ -522,8 +528,8 @@ sim_3H5_GG <-
 
 
 
-dens_3H4 <- dens(sim_3H5_GB, xlim = c(0,100), ylim = c(0,0.07))
-dens_3H5 <- dens(sim_3H5_GG, add = TRUE,  col = "darkblue")
+dens_3H4 <- dens(sim_3H5_GB, xlim = c(0,100), ylim = c(0,0.07), adj = 1)
+dens_3H5 <- dens(sim_3H5_GG, add = TRUE,  col = "darkblue", adj = 1)
 abline(v = sum(birth_dat$GB))
 abline(v = sum(birth_dat$GG),  col = "darkblue")
 
